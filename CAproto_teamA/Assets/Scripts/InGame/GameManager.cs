@@ -41,9 +41,19 @@ namespace InGame
 			}
 			else
 			{
+				if (Input.GetKey(KeyCode.Space))
+				{
+					isPressSpaceKey = true;
+				}
+				else
+				{
+					isPressSpaceKey = false;
+
+				}
 
 				if (isPressSpaceKey)
 				{
+					Debug.Log(isPressSpaceKey);
 					//Matrix処理
 					currentTime += Time.deltaTime * _timeSpeedMultiplier;
 					_currentSecond += Time.deltaTime * _timeSpeedMultiplier;
