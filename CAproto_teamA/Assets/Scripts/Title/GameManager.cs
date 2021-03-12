@@ -19,7 +19,6 @@ namespace Title
         /// </summary>
         void Start()
         {
-            howToPlay.onClick.AddListener(HowToPlay);
             signUp.onClick.AddListener(LoadSignUp);
             login.onClick.AddListener(LoadSignIn);
         }
@@ -40,13 +39,6 @@ namespace Title
             SceneController.Instance.LoadLoginScene();
         }
 
-        /// <summary>
-	    /// DOTweenでモーダルウィンドーっぽくするのがかっこよくないか？
-	    /// </summary>
-        private void HowToPlay()
-        {
-
-        }
 
     }
 }
