@@ -58,7 +58,7 @@ public class LoginNetWork : MonoBehaviour
 		// サーバーアドレスを設定する
 		webRequest.SetServerAddress(ServerAddress);
 
-		// ユーザデータ作成
+		// ユーザログイン
 		yield return LoginUser(webRequest);
 
 		// ユーザー情報取得
