@@ -40,7 +40,7 @@ public class SceneController : MonoBehaviour
 
     public void LoadRankingScene()
     {
-        SceneManager.LoadScene(SceneName.SceneName.ResultScene);
+        SceneManager.LoadScene(SceneName.SceneName.RankingScene);
     }
 
     public void LoadTitleScene()
