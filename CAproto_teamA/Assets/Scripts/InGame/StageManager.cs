@@ -32,7 +32,7 @@ namespace InGame
 		{
 			if (gameManager.isPlaying || !gameManager.isGameOver)
 			{
-				//Update関数の下の目印までif(gameManager.isPlaying)で囲って下さい
+				
 
 				if (!isNowInterval)
 				{
@@ -62,7 +62,7 @@ namespace InGame
 
 					}));
 				}
-				//////////////////囲うのはここまで
+				
 
 			}
 

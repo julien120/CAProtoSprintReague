@@ -48,6 +48,11 @@ namespace InGame
 			StartCoroutine(CountdownC());
 		}
 
+		public static int GetTotalScore()
+		{
+			return totalScore;
+		}
+
 		private void Playing()
 		{
 			if (matrixGaugeManager.MatrixTime == 0)
