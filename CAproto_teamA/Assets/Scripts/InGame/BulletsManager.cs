@@ -15,6 +15,7 @@ namespace InGame
 		private GameManager gameManager;
 		private StageManager stagemanager;
 		public GameObject BulletsPrefab;
+		public GameObject cameraObject;
 		public GameObject pointTextObject;
 		private Text _pointText;
 		public GameObject pointMultipleTextObject;
@@ -23,13 +24,14 @@ namespace InGame
 		//private List<GameObject> bullets;
 		private GameObject[] bullets;
 		private float _spawnTimer;
-		[SerializeField] private float _enemyShootInterval = 4; //発射間隔
+		[SerializeField] private float _enemyShootInterval = 2; //発射間隔
 		[SerializeField] private float _intervalRangeOfReduction = 0.5f;
 		[SerializeField] private float _speedRangeOfReduction;
 		[SerializeField] private int _eachPoint = 100;
 		private Vector3 _enemyBulletVector;
 		private Vector3 _enemyBulletSpawnPosition;
 		private Vector3 _enemyBulletForce;
+		private Transform _cameraPosition;
 		[SerializeField] private float _enemyBulletSpeed = 2;
 
 		private bool _isDestroy;
@@ -62,6 +64,7 @@ namespace InGame
 			_pointText=pointTextObject.GetComponent<Text>();
 			_pointMultipleText = pointMultipleTextObject.GetComponent<Text>();
 			pointMultipleTextObject.SetActive(false);
+			_cameraPosition=cameraObject.GetComponent<Transform>();
 			//bullets = new List<GameObject>();
 		}
 
@@ -77,7 +80,7 @@ namespace InGame
 
 			if (stagemanager._stageChangeMoment)
 			{
-				DifficultLevel();
+				DifficultLevel(stagemanager.currentStageNumber);
 				stagemanager._stageChangeMoment = false;
 			}
 
@@ -85,7 +88,7 @@ namespace InGame
 			//update関数のここから下をif(gameManager.isPlaying)で囲って下さい
 
 			//Debug.Log(_spawnTimer);
-			if (stagemanager.oneStageTakeTime - stagemanager.eachStageProgressTime > 3 && !stagemanager.isNowInterval)   //ステージ終了3秒前になったら弾生成させなくする
+			if (stagemanager.oneStageTakeTime - stagemanager.eachStageProgressTime > 2 && !stagemanager.isNowInterval)   //ステージ終了3秒前になったら弾生成させなくする
 			{
 
 				if (!gameManager.isPressSpaceKey)
@@ -151,7 +154,7 @@ namespace InGame
 
 			}
 
-			if (Input.GetMouseButton(0))
+			if (Input.GetMouseButtonDown(0))
 			{
 				Vector3 center = new Vector3(Screen.width / 2, Screen.height / 2);
 				Ray ray = Camera.main.ScreenPointToRay(center);  //pattern 2
@@ -168,26 +171,21 @@ namespace InGame
 						_isDestroy = true;
 						Destroy(hit.collider.gameObject);
 
-						if (bullet.GetComponent<Transform>().position.z <= 3 && bullet.GetComponent<Transform>().position.z > 0)
+						if (bullet.GetComponent<Transform>().position.z-_cameraPosition.position.z<4 && bullet.GetComponent<Transform>().position.z - _cameraPosition.position.z > 0)
 						{
-							totalPoint += _eachPoint*3;
+							totalPoint += _eachPoint*4;
 							pointMultipleTextObject.SetActive(true);
-							///_pointMultipleText.text = "× 3";
-							
-						}
-						else if(bullet.GetComponent<Transform>().position.z < 6 && bullet.GetComponent<Transform>().position.z > 3)
-						{
-							totalPoint += _eachPoint*2;
-							pointMultipleTextObject.SetActive(true);
-							//_pointMultipleText.text = "× 2";
-							
-						}
+							_pointMultipleText.text = "× 4";
+							_pointText.text = totalPoint.ToString();
+							return;
+						}						
 						else
 						{
 							totalPoint += _eachPoint;
+							_pointText.text = totalPoint.ToString();
 						}
 						
-						_pointText.text = totalPoint.ToString();
+						
 					}
 
 				}
@@ -206,13 +204,17 @@ namespace InGame
 
 		}
 
-		private void DifficultLevel()
+		private void DifficultLevel(int _roundNumber)
 		{
 
 			_enemyBulletSpeed += _speedRangeOfReduction;
-			///Debug.Log("speed is" + _enemyBulletSpeed);
-			_enemyShootInterval -= _intervalRangeOfReduction;
-			///Debug.Log("interval is" + _enemyShootInterval);
+			_enemyShootInterval -= 1 / (2 * _roundNumber);
+
+			if(_enemyShootInterval<0.3)
+			{
+				_enemyShootInterval = 0.3f;
+			}
+			//_enemyShootInterval -= _intervalRangeOfReduction;			
 
 		}
 	}

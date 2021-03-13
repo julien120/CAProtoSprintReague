@@ -14,7 +14,7 @@ namespace InGame
 		protected float currentTime; //スコアになるタイム
 		public int currentStageNumber;
 		public float eachStageProgressTime;　　　　//現在のステージに来てから経過している時間
-		[SerializeField] public float oneStageTakeTime = 10;   //一ステージ当たりのかかる時間(テストのため短めに設定中）
+		[SerializeField] public float oneStageTakeTime = 20;   //一ステージ当たりのかかる時間
 		public bool isNowInterval=false;
 		public GameObject roundNumberTextObject;
 		private Text _roundNumberText;
