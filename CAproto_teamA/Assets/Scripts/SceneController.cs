@@ -57,4 +57,9 @@ public class SceneController : MonoBehaviour
     {
         SceneManager.LoadScene(SceneName.SceneName.SignUpScene);
     }
+
+    public void LoadLoginedTitleScene()
+    {
+        SceneManager.LoadScene(SceneName.SceneName.LoginedTitleScene);
+    }
 }
