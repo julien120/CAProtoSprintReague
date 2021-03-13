@@ -5,16 +5,14 @@ using ProjectConnect.Network.ResponseDto;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UserCreate : MonoBehaviour
+public class LoginNetWork : MonoBehaviour
 {
-	public InputField userNameInputField;
+
 	public InputField userIdInputField;
 	public InputField passwordInputField;
-	public Text userNameTestText;
+	public Text userIdTestText;
 
 	//チーム用のサーバー
-	
-	//Unity上でテストする際のサーバーURL
 	private const string ServerAddress = "http://52.198.128.17:8080/";
 
 	//サンプル用のサーバー
@@ -26,8 +24,7 @@ public class UserCreate : MonoBehaviour
 	public enum MethodType
 	{
 		// Postメソッド系
-		PostUserCreate,
-		//PostUserUpdate,
+		PostUserLogin,
 
 		// Getメソッド系
 		GetUser
@@ -36,13 +33,12 @@ public class UserCreate : MonoBehaviour
 	void Start()
 	{
 		//InputFieldのコンポーネントを呼び出す
-		userNameInputField = userNameInputField.GetComponent<InputField>();
 		userIdInputField = userIdInputField.GetComponent<InputField>();
 		passwordInputField = passwordInputField.GetComponent<InputField>();
 
 
 		//WebGLテスト用のテキスト
-		userNameTestText = userNameTestText.GetComponent<Text>();
+		userIdTestText = userIdTestText.GetComponent<Text>();
 	}
 
 	//OnClickで呼び出すメソッド
@@ -62,8 +58,8 @@ public class UserCreate : MonoBehaviour
 		// サーバーアドレスを設定する
 		webRequest.SetServerAddress(ServerAddress);
 
-		// ユーザデータ作成
-		yield return CreateUser(webRequest);
+		// ユーザログイン
+		yield return LoginUser(webRequest);
 
 		// ユーザー情報取得
 		yield return GetUserInfo(webRequest);
@@ -72,36 +68,35 @@ public class UserCreate : MonoBehaviour
 
 
 	/// <summary>
-	/// ユーザデータの作成
+	/// ユーザログイン
 	/// </summary>
 	/// <param name="webRequest">Webリクエスト</param>
 	/// <returns></returns>
-	private IEnumerator CreateUser(WebRequest webRequest)
+	private IEnumerator LoginUser(WebRequest webRequest)
 	{
 
-		// ユーザー作成時の情報
-		var userCreateRequestDto = new UserCreateRequestDto();
-		userCreateRequestDto.name = userNameInputField.text;
-		userCreateRequestDto.userId = userIdInputField.text;
-		userCreateRequestDto.password = passwordInputField.text;
+		// ユーザーログイン時の情報
+		var userLoginRequestDto = new UserLoginRequestDto();
+		userLoginRequestDto.userId = userIdInputField.text;
+		userLoginRequestDto.password = passwordInputField.text;
 
 		// トークンを受け取る変数
 		// レスポンスで受け取ったトークンはここに設定してください。
 		string token = null;
 
+		Debug.Log("UserID:"+userLoginRequestDto.userId);
+		Debug.Log("Password:"+userLoginRequestDto.password);
 
 		// TODO: ユーザ作成の通信
 		//       更新や情報取得など他の通信を参考に、ユーザ作成の通信処理を記載してください。
-		yield return webRequest.Post<UserCreateRequestDto, UserCreateResponseDto>(          //Postリクエスト
-			GetMethod(MethodType.PostUserCreate),                                           //リクエスト先のURL
-			userCreateRequestDto,                                                           //Postするデータ（今回はname)
-			userCreateResonseDto =>                                                                            //通信成功時の処理
+		yield return webRequest.Post<UserLoginRequestDto, UserLoginResponseDto>(          //Postリクエスト
+			GetMethod(MethodType.PostUserLogin),                                           //リクエスト先のURL
+			userLoginRequestDto,                                                           //Postするデータ（今回はuserId,password)
+			userLoginResonseDto =>                                                                            //通信成功時の処理
 			{
-				//Debug.Log("ユーザー登録完了");
-				token = userCreateResonseDto.token;
-				userNameTestText.text = userCreateRequestDto.name;
-				Debug.Log("UserID:"+userCreateRequestDto.userId); ;
-				Debug.Log("テキスト:"+userNameTestText.text);
+			
+				token = userLoginResonseDto.token;
+				Debug.Log("ログインPost完了!最高だぜ!!");
 			},
 			Debug.LogError,                                                                 //通信失敗時の処理
 			false                                                                            //トークンを使用するか
@@ -114,7 +109,6 @@ public class UserCreate : MonoBehaviour
 
 	}
 
-
 	/// <summary>
 	/// ユーザ情報取得
 	/// </summary>
@@ -124,12 +118,13 @@ public class UserCreate : MonoBehaviour
 	{
 
 		// ユーザー情報取得リクエストを投げる
-		// 成功時: name,id,coin,highScoreの情報を出力する
+		// 成功時: userIdの情報を出力する
 		// 失敗時: エラーの内容をDebug.LogErrorで出力する
 		yield return webRequest.Get<UserGetResponseDto>(GetMethod(MethodType.GetUser), userGetResponseDto =>
 		{
-			Debug.Log("name:" + userGetResponseDto.name);
-			
+			userIdTestText.text = userGetResponseDto.userId;
+			Debug.Log("userId:" + userGetResponseDto.userId);
+		
 		}, Debug.LogError);
 
 	}
@@ -143,8 +138,11 @@ public class UserCreate : MonoBehaviour
 	{
 		switch (type)
 		{
-			case MethodType.PostUserCreate:
-				return "/user/create";
+			//case MethodType.PostUserCreate:
+			//	return "/user/create";
+
+			case MethodType.PostUserLogin:
+				return "/user/login";
 
 			// ユーザ情報取得用HTTPメソッド
 			case MethodType.GetUser:

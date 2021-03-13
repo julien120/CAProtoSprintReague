@@ -11,6 +11,8 @@ namespace ProjectConnect.Network.ResponseDto
 		/// </summary>
 		/// <value>ユーザ名</value>
 		public string name;
+		public string userId;
+		//public string password;
 
 		/// <summary>
 		/// ハイスコア

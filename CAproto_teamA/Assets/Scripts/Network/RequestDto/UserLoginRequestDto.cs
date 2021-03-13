@@ -3,9 +3,8 @@ using System;
 namespace ProjectConnect.Network.RequestDto
 {
 	[Serializable]
-	public class UserCreateRequestDto : DtoBase
+	public class UserLoginRequestDto : DtoBase
 	{
-		public string name;
 		public string userId;
 		public string password;
 	}
