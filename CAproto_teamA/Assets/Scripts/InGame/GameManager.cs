@@ -15,7 +15,11 @@ namespace InGame
 
 		MatrixGaugeManager matrixGaugeManager;
 
+		private BulletsManager bulletsManager;
 		public float currentTime;
+		public int totalScore;		
+		public GameObject totalScoreTextObject;
+		private Text _totalScoreText;
 		public bool isPressSpaceKey;
 
 		private float _currentSecond;
@@ -30,6 +34,9 @@ namespace InGame
 
 		void Start()
 		{
+			bulletsManager = this.GetComponent<BulletsManager>();
+			_totalScoreText = totalScoreTextObject.GetComponent<Text>();
+			totalScoreTextObject.SetActive(false);
 			matrixGaugeManager = this.GetComponent<MatrixGaugeManager>();
 			_currentSecond = 0f;
 			_currentMinute = 0;
@@ -41,77 +48,49 @@ namespace InGame
 			StartCoroutine(CountdownC());
 		}
 
-
-		void Update()
+		private void Playing()
 		{
-			if (isPlaying)
+			if (matrixGaugeManager._MatrixTime == 0)
 			{
-				if (!isGameOver)
-				{
-					//Playing時の処理
-
-					if (matrixGaugeManager._MatrixTime == 0)
-					{
-						isMatrixAvailable = false;
-					}
-					else if (Input.GetKey(KeyCode.Space))
-					{
-						isPressSpaceKey = true;
-					}
-					else
-					{
-						isPressSpaceKey = false;
-
-					}
-
-					if (isPressSpaceKey && isMatrixAvailable)
-					{
-						//Debug.Log(isPressSpaceKey);
-						//Matrix処理
-
-						currentTime += Time.deltaTime * timeSpeedMultiplier;
-						_currentSecond += Time.deltaTime * timeSpeedMultiplier;
-					}
-					else
-					{
-						currentTime += Time.deltaTime;
-						_currentSecond += Time.deltaTime;
-					}
-				}
-				else
-				{
-					//GameOver直後の処理
-
-					//Debug.Log("lose");
-
-					isGameOver = false;
-					isPressSpaceKey = false;
-					isMatrixAvailable = false;
-					StartCoroutine(WaitTwoSecs());
-				}
+				isMatrixAvailable = false;
+			}
+			else if (Input.GetKey(KeyCode.Space))
+			{
+				isPressSpaceKey = true;
 			}
 			else
 			{
-				if (!isGameOver)
-				{
-					//Pause時の処理
-				}
-				else
-				{
-					//GameOver後の処理
+				isPressSpaceKey = false;
 
-					StartCoroutine(WaitTwoSecs());
-					//Debug.Log("aaaaaaaaaaaa");
-					_gameOverText.text = "";
-				}
 			}
+		}
 
-			GetCurrentTimeForText();
-
-			if (life == 0)
+		private void getCurrentTime(bool isPressSpaceKey, bool isMatrixAvailable)
+		{
+			if (isPressSpaceKey && isMatrixAvailable)
 			{
-				isGameOver = true;
+				//Debug.Log(isPressSpaceKey);
+				//Matrix処理
+
+				currentTime += Time.deltaTime * timeSpeedMultiplier;
+				_currentSecond += Time.deltaTime * timeSpeedMultiplier;
 			}
+			else
+			{
+				currentTime += Time.deltaTime;
+				_currentSecond += Time.deltaTime;
+			}
+		}
+
+		private void gameOver()
+		{
+			isGameOver = false;
+			isPressSpaceKey = false;
+			isMatrixAvailable = false;
+			totalScoreTextObject.SetActive(true);
+			totalScore = (int)(currentTime * bulletsManager.totalPoint);
+			_totalScoreText.text = totalScore.ToString();
+			StartCoroutine(WaitTwoSecs());
 		}
 
 		private void GetCurrentTimeForText()
@@ -150,6 +129,47 @@ namespace InGame
 			_gameOverText.text = "GAME OVER";
 			yield return new WaitForSeconds(2f);
 			isPlaying = false;
+		}
+
+		void Update()
+		{
+			if (isPlaying)
+			{
+				if (!isGameOver)
+				{
+					//Playing時の処理
+
+					Playing();
+					getCurrentTime(isPressSpaceKey, isMatrixAvailable);
+				}
+				else
+				{
+					//GameOver直後の処理
+
+					gameOver();
+				}
+			}
+			else
+			{
+				if (!isGameOver)
+				{
+					//Pause時の処理
+				}
+				else
+				{
+					//GameOver後の処理
+
+					StartCoroutine(WaitTwoSecs());
+					_gameOverText.text = "";
+				}
+			}
+
+			GetCurrentTimeForText();
+
+			if (life == 0)
+			{
+				isGameOver = true;
+			}
 		}
 	}
 }

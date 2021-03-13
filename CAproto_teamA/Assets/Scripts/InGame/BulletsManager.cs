@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace InGame
 {
@@ -10,9 +11,14 @@ namespace InGame
 		protected float currentTime; //スコアになるタイム
 		protected bool isPressSpaceKey;
 
+		public float totalPoint = 0;
 		private GameManager gameManager;
 		private StageManager stagemanager;
 		public GameObject BulletsPrefab;
+		public GameObject pointTextObject;
+		private Text _pointText;
+		public GameObject pointMultipleTextObject;
+		private Text _pointMultipleText;
 		private GameObject bullet;
 		//private List<GameObject> bullets;
 		private GameObject[] bullets;
@@ -20,6 +26,7 @@ namespace InGame
 		[SerializeField] private float _enemyShootInterval = 4; //発射間隔
 		[SerializeField] private float _intervalRangeOfReduction = 0.5f;
 		[SerializeField] private float _speedRangeOfReduction;
+		[SerializeField] private int _eachPoint = 100;
 		private Vector3 _enemyBulletVector;
 		private Vector3 _enemyBulletSpawnPosition;
 		private Vector3 _enemyBulletForce;
@@ -30,7 +37,7 @@ namespace InGame
 
 		[SerializeField, Range(0, 10)] private float _enemyRange = 5f;
 
-		private Vector3 END_ENEMY { get { return new Vector3(0, 0, -1); } }
+		private Vector3 END_ENEMY { get { return new Vector3(0, 0, -3); } }
 		///
 		public bool isShootingMoment;
 		public bool isShootingSucess;
@@ -52,7 +59,9 @@ namespace InGame
 			gameManager = this.GetComponent<GameManager>();
 			stagemanager = this.GetComponent<StageManager>();
 
-
+			_pointText=pointTextObject.GetComponent<Text>();
+			_pointMultipleText = pointMultipleTextObject.GetComponent<Text>();
+			pointMultipleTextObject.SetActive(false);
 			//bullets = new List<GameObject>();
 		}
 
@@ -149,17 +158,36 @@ namespace InGame
 				//Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				RaycastHit hit;
 
-				if (Physics.Raycast(ray, out hit, 10))
+				if (Physics.Raycast(ray, out hit, 50)&& bullet != null)
 				{
-					if (bullet != null)
+					
+					foreach (GameObject bullet in bullets)
 					{
-						foreach (GameObject bullet in bullets)
+							
+						isShootingSucess = true;
+						_isDestroy = true;
+						Destroy(hit.collider.gameObject);
+
+						if (bullet.GetComponent<Transform>().position.z <= 3 && bullet.GetComponent<Transform>().position.z > 0)
 						{
-							//もしhitのタグが"Block"と一致していた場合．．．の処理内容
-							isShootingSucess = true;
-							_isDestroy = true;
-							Destroy(hit.collider.gameObject);
+							totalPoint += _eachPoint*3;
+							pointMultipleTextObject.SetActive(true);
+							///_pointMultipleText.text = "× 3";
+							
 						}
+						else if(bullet.GetComponent<Transform>().position.z < 6 && bullet.GetComponent<Transform>().position.z > 3)
+						{
+							totalPoint += _eachPoint*2;
+							pointMultipleTextObject.SetActive(true);
+							//_pointMultipleText.text = "× 2";
+							
+						}
+						else
+						{
+							totalPoint += _eachPoint;
+						}
+						
+						_pointText.text = totalPoint.ToString();
 					}
 
 				}
