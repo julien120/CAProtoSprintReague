@@ -8,5 +8,6 @@
         public const string SignUpScene = "SignUp";
         public const string LoginScene = "Login";
         public const string RankingScene = "Ranking";
+        public const string LoginedTitleScene = "Title_afterLogin";
     }
 }
