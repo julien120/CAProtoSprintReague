@@ -14,12 +14,12 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  m_FogMode: 3
-  m_FogDensity: 0.01
-  m_LinearFogStart: 0
-  m_LinearFogEnd: 300
+  m_Fog: 1
+  m_FogColor: {r: 0.41509432, g: 0.41509432, b: 0.41509432, a: 0.3882353}
+  m_FogMode: 1
+  m_FogDensity: 0.2
+  m_LinearFogStart: 3000
+  m_LinearFogEnd: 6000
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
@@ -27,7 +27,7 @@ RenderSettings:
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 95ebf50189f880e4aa17c4fdba9007aa, type: 2}
-  m_HaloStrength: 0.5
+  m_HaloStrength: 0.498
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
@@ -612,7 +612,7 @@ MonoBehaviour:
     keepAlpha: 0
   fog:
     enabled: 1
-    excludeSkybox: 1
+    excludeSkybox: 0
   debugLayer:
     lightMeter:
       width: 512
@@ -1911,7 +1911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 592751b4b6261402c9dfcc41448b8a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  position: {fileID: 856297970}
+  position: {x: 0, y: 0, z: 0}
 --- !u!1 &862607296
 GameObject:
   m_ObjectHideFlags: 0
@@ -2285,7 +2285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 592751b4b6261402c9dfcc41448b8a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  position: {fileID: 856297970}
+  position: {x: 0, y: 0, z: 0}
 --- !u!1 &966415874
 GameObject:
   m_ObjectHideFlags: 0
