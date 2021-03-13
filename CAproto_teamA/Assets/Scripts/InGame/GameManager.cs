@@ -17,7 +17,7 @@ namespace InGame
 
 		private BulletsManager bulletsManager;
 		public float currentTime;
-		public int totalScore;		
+		public static int totalScore;	           /////リザルト	
 		public GameObject totalScoreTextObject;
 		private Text _totalScoreText;
 		public bool isPressSpaceKey;
