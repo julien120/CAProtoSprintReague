@@ -10,7 +10,7 @@ public class ResultNetWork : MonoBehaviour
 	public Text scoreText;
 
 	int userScore = 1000; //GameManagerからtotalScoreを呼ぶ
-
+	//int userScore=GameManager.GetTotalScore()
 
 	//チーム用のサーバー
 	private const string ServerAddress = "http://52.198.128.17:8080/";
@@ -37,7 +37,7 @@ public class ResultNetWork : MonoBehaviour
 	/// <summary>
 	/// 通信サンプル用のCoroutine
 	/// </summary>
-	private IEnumerator NetworkCoroutine()
+		private IEnumerator NetworkCoroutine()
 	{
 		// WebRequestクラスをインスタンス化
 		var webRequest = new WebRequest();
