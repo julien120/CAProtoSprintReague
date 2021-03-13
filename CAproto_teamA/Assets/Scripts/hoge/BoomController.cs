@@ -1,10 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BoomController : MonoBehaviour
 {
-    private float boomSpeed = -100f;
+    private float boomSpeed = -0.00001f;
 
     // Start is called before the first frame update
     void Start()

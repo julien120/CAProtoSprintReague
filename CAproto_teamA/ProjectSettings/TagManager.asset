@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bullet
   - DamageDetectedZone
+  - Rock
   layers:
   - Default
   - TransparentFX
