@@ -8,35 +8,50 @@ namespace InGame
 
 	public class MatrixGaugeManager : MonoBehaviour
 	{
-		private GameObject gameManager;
-		private GameManager gameManagerScript;
+		private GameObject _gameManager;
+		private GameManager _gameManagerScript;
 
 		[SerializeField ]private Text _matrixGauge;
+		[SerializeField] public const float MATRIX_TIME = 15;
+		[SerializeField] private int _matrixRecovery = 3;
+		public float MatrixTime;
+		public float remainingMatrixGuage;
 
-		protected bool isPressSpaceKey;
-		[SerializeField] private const float MATRIX_TIME = 20;
-		public float _MatrixTime;
-		public float _remainingMatrixGuage;
+		public bool isRecovery;
 		// Start is called before the first frame update
 		void Start()
 		{
-			gameManager = GameObject.Find("GameManager");
-			gameManagerScript = gameManager.GetComponent<GameManager>();
+			_gameManager = GameObject.Find("GameManager");
+			_gameManagerScript = _gameManager.GetComponent<GameManager>();
+			
 			_matrixGauge.text = "";
-			_MatrixTime = MATRIX_TIME;
-			_remainingMatrixGuage = 100;
+			MatrixTime = 0;
+			remainingMatrixGuage = 0;
+
+			isRecovery = false;
 		}
 
 		// Update is called once per frame
 		void Update()
 		{
-			_matrixGauge.text = _remainingMatrixGuage.ToString("F2");
-			if (gameManagerScript.isPressSpaceKey)
+			_matrixGauge.text = remainingMatrixGuage.ToString("F2");
+			if (_gameManagerScript.isPressSpaceKey && _gameManagerScript.isMatrixAvailable)
 			{
-				_MatrixTime -= Time.deltaTime;
-				_remainingMatrixGuage=Mathf.Lerp(0, 100, _MatrixTime / MATRIX_TIME);
-
+				MatrixTime -= Time.deltaTime;
+				if (MatrixTime < 0) MatrixTime = 0;
+				remainingMatrixGuage=Mathf.Lerp(0, 100, MatrixTime / MATRIX_TIME);
 			}
+			if (isRecovery)
+			{
+				MatrixTime += _matrixRecovery;
+				if (MatrixTime > MATRIX_TIME)
+				{
+					MatrixTime = MATRIX_TIME;
+				}
+				remainingMatrixGuage = Mathf.Lerp(0, 100, MatrixTime / MATRIX_TIME);
+				isRecovery = false;
+			}
+			_gameManagerScript.isMatrixAvailable = true ? MatrixTime > 0 : false;
 		}
 	}
 }

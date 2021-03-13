@@ -36,7 +36,7 @@ namespace InGame
 
 				if (!isNowInterval)
 				{
-					if (gameManager.isPressSpaceKey)
+					if (gameManager.isPressSpaceKey && gameManager.isMatrixAvailable)
 					{
 						eachStageProgressTime += Time.deltaTime * gameManager.timeSpeedMultiplier;
 					}

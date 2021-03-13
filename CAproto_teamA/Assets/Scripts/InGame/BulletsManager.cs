@@ -7,25 +7,24 @@ namespace InGame
 {
 	public class BulletsManager : MonoBehaviour
 	{
-
-		protected float currentTime; //スコアになるタイム
-		protected bool isPressSpaceKey;
-
 		public float totalPoint = 0;
 		private GameManager gameManager;
+		private MatrixObjectManager matrixObjectManager;
 		private StageManager stagemanager;
 		public GameObject BulletsPrefab;
 		public GameObject cameraObject;
 		public GameObject pointTextObject;
-		private Text _pointText;
 		public GameObject pointMultipleTextObject;
+
+		private Text _pointText;
 		private Text _pointMultipleText;
+
 		private GameObject bullet;
 		//private List<GameObject> bullets;
 		private GameObject[] bullets;
 		private float _spawnTimer;
 		[SerializeField] private float _enemyShootInterval = 2; //発射間隔
-		[SerializeField] private float _intervalRangeOfReduction = 0.5f;
+		//[SerializeField] private float _intervalRangeOfReduction = 0.5f;
 		[SerializeField] private float _speedRangeOfReduction;
 		[SerializeField] private int _eachPoint = 100;
 		private Vector3 _enemyBulletVector;
@@ -35,7 +34,7 @@ namespace InGame
 		[SerializeField] private float _enemyBulletSpeed = 2;
 
 		private bool _isDestroy;
-		private bool _isChangeSpeed;
+		//private bool _isChangeSpeed;
 
 		[SerializeField, Range(0, 10)] private float _enemyRange = 5f;
 
@@ -56,16 +55,19 @@ namespace InGame
 			isDamageReceived = false;
 
 			_isDestroy = false;
-			_isChangeSpeed = false;
+			//_isChangeSpeed = false;
 
 			gameManager = this.GetComponent<GameManager>();
 			stagemanager = this.GetComponent<StageManager>();
+			matrixObjectManager = this.GetComponent<MatrixObjectManager>();
 
-			_pointText=pointTextObject.GetComponent<Text>();
+			_pointText =pointTextObject.GetComponent<Text>();
 			_pointMultipleText = pointMultipleTextObject.GetComponent<Text>();
 			pointMultipleTextObject.SetActive(false);
 			_cameraPosition=cameraObject.GetComponent<Transform>();
 			//bullets = new List<GameObject>();
+
+			matrixObjectManager.matrixSpeed = _enemyBulletSpeed;
 		}
 
 		// Update is called once per frame
@@ -90,15 +92,20 @@ namespace InGame
 			//Debug.Log(_spawnTimer);
 			if (stagemanager.oneStageTakeTime - stagemanager.eachStageProgressTime > 2 && !stagemanager.isNowInterval)   //ステージ終了3秒前になったら弾生成させなくする
 			{
-
-				if (!gameManager.isPressSpaceKey)
-				{
-					_spawnTimer += Time.deltaTime;
-				}
-				else
+				matrixObjectManager.isSpawn = false;
+				matrixObjectManager.isExist = false;
+				if(gameManager.isPressSpaceKey && gameManager.isMatrixAvailable)
 				{
 					_spawnTimer += Time.deltaTime * gameManager.timeSpeedMultiplier;
 				}
+				else
+				{
+					_spawnTimer += Time.deltaTime;
+				}
+			}
+			else
+			{
+				matrixObjectManager.isSpawn = true;
 			}
 			
 			if (_spawnTimer > _enemyShootInterval && gameManager.isPlaying && !gameManager.isGameOver)
@@ -109,7 +116,7 @@ namespace InGame
 				bullets = GameObject.FindGameObjectsWithTag("Bullet");
 				//_enemyBulletVector = new Vector3(0, 0, -1);
 				_enemyBulletVector = (END_ENEMY - _enemyBulletSpawnPosition).normalized; //pattern 2
-				if (gameManager.isPressSpaceKey)
+				if (gameManager.isPressSpaceKey && gameManager.isMatrixAvailable)
 				{
 					bullet.GetComponent<Rigidbody>().velocity = _enemyBulletVector * _enemyBulletSpeed * gameManager.timeSpeedMultiplier;
 				}
@@ -206,7 +213,7 @@ namespace InGame
 
 		private void DifficultLevel(int _roundNumber)
 		{
-
+			matrixObjectManager.matrixSpeed += _speedRangeOfReduction;
 			_enemyBulletSpeed += _speedRangeOfReduction;
 			_enemyShootInterval -= 1 / (2 * _roundNumber);
 
