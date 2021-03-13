@@ -10,7 +10,7 @@ public class UserCreate : MonoBehaviour
 	public InputField userNameInputField;
 	public InputField userIdInputField;
 	public InputField passwordInputField;
-	public Text userNameTestText;
+	
 
 	//チーム用のサーバー
 	
@@ -40,15 +40,18 @@ public class UserCreate : MonoBehaviour
 		userIdInputField = userIdInputField.GetComponent<InputField>();
 		passwordInputField = passwordInputField.GetComponent<InputField>();
 
-
-		//WebGLテスト用のテキスト
-		userNameTestText = userNameTestText.GetComponent<Text>();
 	}
 
 	//OnClickで呼び出すメソッド
 	public void StartCoroutine()
 	{
 		StartCoroutine(NetworkCoroutine());
+	}
+
+	//シーン遷移のメソッド
+	public void LoadLoginedTitleScene()
+	{
+		SceneController.Instance.LoadLoginedTitleScene();
 	}
 
 	/// <summary>
@@ -68,6 +71,7 @@ public class UserCreate : MonoBehaviour
 		// ユーザー情報取得
 		yield return GetUserInfo(webRequest);
 
+		 LoadLoginedTitleScene();
 	}
 
 
@@ -99,9 +103,7 @@ public class UserCreate : MonoBehaviour
 			{
 				//Debug.Log("ユーザー登録完了");
 				token = userCreateResonseDto.token;
-				userNameTestText.text = userCreateRequestDto.name;
-				Debug.Log("UserID:"+userCreateRequestDto.userId); ;
-				Debug.Log("テキスト:"+userNameTestText.text);
+				Debug.Log("UserID:"+userCreateRequestDto.userId); 
 			},
 			Debug.LogError,                                                                 //通信失敗時の処理
 			false                                                                            //トークンを使用するか
