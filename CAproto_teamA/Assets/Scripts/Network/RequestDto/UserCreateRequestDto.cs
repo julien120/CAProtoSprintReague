@@ -6,5 +6,6 @@ namespace ProjectConnect.Network.RequestDto
 	public class UserCreateRequestDto : DtoBase
 	{
 		public string name;
+		public string password;
 	}
 }
