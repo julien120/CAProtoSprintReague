@@ -10,7 +10,7 @@ public class LoginNetWork : MonoBehaviour
 
 	public InputField userIdInputField;
 	public InputField passwordInputField;
-	public Text userIdTestText;
+
 
 	//チーム用のサーバー
 	private const string ServerAddress = "http://52.198.128.17:8080/";
@@ -27,7 +27,7 @@ public class LoginNetWork : MonoBehaviour
 		PostUserLogin,
 
 		// Getメソッド系
-		GetUser
+		//GetUser
 	}
 
 	void Start()
@@ -37,14 +37,19 @@ public class LoginNetWork : MonoBehaviour
 		passwordInputField = passwordInputField.GetComponent<InputField>();
 
 
-		//WebGLテスト用のテキスト
-		userIdTestText = userIdTestText.GetComponent<Text>();
+		
 	}
 
 	//OnClickで呼び出すメソッド
 	public void StartCoroutine()
 	{
 		StartCoroutine(NetworkCoroutine());
+	}
+
+	//シーン遷移のメソッド
+	public void LoadLoginedTitleScene()
+	{
+		SceneController.Instance.LoadLoginedTitleScene();
 	}
 
 	/// <summary>
@@ -61,8 +66,7 @@ public class LoginNetWork : MonoBehaviour
 		// ユーザログイン
 		yield return LoginUser(webRequest);
 
-		// ユーザー情報取得
-		yield return GetUserInfo(webRequest);
+		LoadLoginedTitleScene();
 
 	}
 
@@ -109,25 +113,7 @@ public class LoginNetWork : MonoBehaviour
 
 	}
 
-	/// <summary>
-	/// ユーザ情報取得
-	/// </summary>
-	/// <param name="webRequest">Webリクエスト</param>
-	/// <returns></returns>
-	private IEnumerator GetUserInfo(WebRequest webRequest)
-	{
 
-		// ユーザー情報取得リクエストを投げる
-		// 成功時: userIdの情報を出力する
-		// 失敗時: エラーの内容をDebug.LogErrorで出力する
-		yield return webRequest.Get<UserGetResponseDto>(GetMethod(MethodType.GetUser), userGetResponseDto =>
-		{
-			userIdTestText.text = userGetResponseDto.userId;
-			Debug.Log("userId:" + userGetResponseDto.userId);
-		
-		}, Debug.LogError);
-
-	}
 
 	/// <summary>
 	/// メソッドの取得
@@ -144,9 +130,6 @@ public class LoginNetWork : MonoBehaviour
 			case MethodType.PostUserLogin:
 				return "/user/login";
 
-			// ユーザ情報取得用HTTPメソッド
-			case MethodType.GetUser:
-				return "/user/get";
 		}
 
 		return null;
