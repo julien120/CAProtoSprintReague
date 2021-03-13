@@ -8,12 +8,15 @@ namespace Title_afterLogin
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField] private Button button; 
+        [SerializeField] private Button buttonStartGame;
+
+        [SerializeField] private Button buttonRanking;
 
         // Start is called before the first frame update
         void Start()
         {
-            button.onClick.AddListener(LoadInGameScene);
+            buttonStartGame.onClick.AddListener(LoadInGameScene);
+            buttonRanking.onClick.AddListener(LoadRankingScene);
         }
 
         // Update is called once per frame
@@ -27,5 +30,18 @@ namespace Title_afterLogin
 		{
             SceneController.Instance.LoadInGameScene();
 		}
+
+        private void LoadRankingScene()
+        {
+            SceneController.Instance.LoadRankingScene();
+        }
+
+        /// <summary>
+		/// シーン移動しないならDotweenかSetActiveで
+		/// </summary>
+        private void LoadSettingScene()
+        {
+            //SceneController.Instance.LoadInGameScene();
+        }
     }
 }
