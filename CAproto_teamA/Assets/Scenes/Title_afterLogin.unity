@@ -475,7 +475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonStartGame: {fileID: 1945828041}
-  buttonSetting: {fileID: 0}
+  buttonSetting: {fileID: 1042986289}
   buttonRanking: {fileID: 1191311865}
   settingUI: {fileID: 1101819737}
 --- !u!4 &556496563
