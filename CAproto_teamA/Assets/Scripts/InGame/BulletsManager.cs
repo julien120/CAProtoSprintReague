@@ -27,7 +27,7 @@ namespace InGame
 		[SerializeField] private LifeGauge lifeGauge;
 
 		private float _spawnTimer;
-		[SerializeField] private float _enemyShootInterval = 2; //発射間隔
+		private float _enemyShootInterval = 2; //発射間隔
 		//[SerializeField] private float _intervalRangeOfReduction = 0.5f;
 		[SerializeField] private float _speedRangeOfReduction;
 		[SerializeField] private int _eachPoint = 100;
@@ -36,6 +36,7 @@ namespace InGame
 		private Vector3 _enemyBulletForce;
 		private Transform _cameraPosition;
 		private bool _isKeyDown;
+		private float _duringTime;
 		[SerializeField] private float _enemyBulletSpeed = 2;
 
 		private bool _isDestroy;
@@ -76,6 +77,7 @@ namespace InGame
 			_isKeyDown = false;
 
 			lifeGauge.SetLifeGauge(gameManager.life);
+			_duringTime = 0.3f;
 
 		}
 
@@ -91,7 +93,7 @@ namespace InGame
 
 			if (stagemanager._stageChangeMoment)
 			{
-				DifficultLevel(stagemanager.currentStageNumber);
+				DifficultLevel();
 				stagemanager._stageChangeMoment = false;
 			}
 
@@ -119,6 +121,7 @@ namespace InGame
 			
 			if (_spawnTimer > _enemyShootInterval && gameManager.isPlaying && !gameManager.isGameOver)
 			{
+				Debug.Log("AAAAAAA"+_enemyShootInterval);
 				_spawnTimer = 0;
 				_enemyBulletSpawnPosition = new Vector3(Random.Range(-_enemyRange, _enemyRange), Random.Range(-_enemyRange, _enemyRange), 40);
 				bullet = Instantiate(BulletsPrefab, _enemyBulletSpawnPosition, Quaternion.identity);
@@ -203,7 +206,7 @@ namespace InGame
 						{
 							totalPoint += _eachPoint*4;
 							pointMultipleTextObject.SetActive(true);
-							_pointMultipleText.text = "× 4";
+							//_pointMultipleText.text = "× 4";
 							_pointText.text = totalPoint.ToString();
 							return;
 						}						
@@ -220,6 +223,7 @@ namespace InGame
 
 			}
 
+
 			if (Input.GetMouseButtonDown(0))
 			{
 				isShootingMoment = true;
@@ -229,19 +233,18 @@ namespace InGame
 				isShootingMoment = false;
 			}
 
-
 		}
 
-		private void DifficultLevel(int _roundNumber)
+		private void DifficultLevel()
 		{
 			matrixObjectManager.matrixSpeed += _speedRangeOfReduction;
 			_enemyBulletSpeed += _speedRangeOfReduction;
-			_enemyShootInterval -= 1 / (2 * _roundNumber);
-
-			if(_enemyShootInterval<0.3)
-			{
-				_enemyShootInterval = 0.3f;
-			}
+			_enemyShootInterval -= _duringTime;
+			Debug.Log(_enemyShootInterval);
+			if (_enemyShootInterval > 0.3f) _duringTime = 0.05f;
+			if (_enemyShootInterval > 0.4f) _duringTime = 0.1f;
+			if (_enemyShootInterval > 0.8f) _duringTime = 0.2f;
+			if (_enemyShootInterval > 1.2f) _duringTime = 0.3f;
 			//_enemyShootInterval -= _intervalRangeOfReduction;			
 
 		}
