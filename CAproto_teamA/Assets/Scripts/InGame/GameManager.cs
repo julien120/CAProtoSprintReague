@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.Cameras;
+
 using UnityEngine.UI;
 
 namespace InGame
@@ -12,7 +14,8 @@ namespace InGame
 		[SerializeField] public int life = 3;
 		[SerializeField] private Text _cdtext;
 		[SerializeField] private Text _gameOverText;
-
+		[SerializeField] private GameObject _freeLookCameraRig;
+		FreeLookCam freelookcamera;
 		MatrixGaugeManager matrixGaugeManager;
 
 		private BulletsManager bulletsManager;
@@ -26,7 +29,7 @@ namespace InGame
 		private float _currentSecond;
 		private int _currentMinute;
 		public bool isGameOver;
-
+		
 		private Text _timePrint;
 		private string _second;
 
@@ -35,6 +38,7 @@ namespace InGame
 
 		void Start()
 		{
+			freelookcamera = _freeLookCameraRig.GetComponent<FreeLookCam>();
 			bulletsManager = this.GetComponent<BulletsManager>();
 			_totalScoreText = totalScoreTextObject.GetComponent<Text>();
 			totalScoreTextObject.SetActive(false);
@@ -42,16 +46,16 @@ namespace InGame
 			_currentSecond = 0f;
 			_currentMinute = 0;
 			isPressSpaceKey = false;
-			_timePrint = GameObject.Find("TimerText").GetComponent<Text>();
-
+			_timePrint = GameObject.Find("TimerText").GetComponent<Text>();			
 			okButton.SetActive(false);
 			_gameOverText.text = "";
 			isMatrixAvailable = true;
 			isPlaying = false;
 			StartCoroutine(CountdownC());
+			
 		}
 
-		public static int GetTotalScore()
+		public static int GetTotalScore()  
 		{
 			return totalScore;
 		}
@@ -98,6 +102,9 @@ namespace InGame
 			totalScoreTextObject.SetActive(true);
 			totalScore = (int)(currentTime * bulletsManager.totalPoint);
 			_totalScoreText.text = totalScore.ToString();
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
+			freelookcamera.enabled = false;
 			StartCoroutine(WaitTwoSecs());
 		}
 
