@@ -10,7 +10,8 @@ public class LoginNetWork : MonoBehaviour
 
 	public InputField userIdInputField;
 	public InputField passwordInputField;
-	public Text loginErrorText;
+	
+	public GameObject loginErrorPanel;
 
 	//チーム用のサーバー
 	private const string ServerAddress = "http://52.198.128.17:8080/";
@@ -71,8 +72,9 @@ public class LoginNetWork : MonoBehaviour
 		if(isLoginNetWorkError==true)
 		{
 			//タイトルに戻るなどの操作
-			loginErrorText.gameObject.SetActive(true);
-			loginErrorText.text = "ユーザー登録に失敗しました.";
+			loginErrorPanel.SetActive(true);
+			Debug.Log("ログインに失敗しました");
+		
 		}
 		else
 		{
