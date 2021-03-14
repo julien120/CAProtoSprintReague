@@ -14,7 +14,7 @@ namespace UnityStandardAssets.Cameras
         // 			Camera
 
         [SerializeField] private float m_MoveSpeed = 1f;                      // How fast the rig will move to keep up with the target's position.
-        [Range(0f, 10f)] [SerializeField] private static float m_TurnSpeed = 1.5f;   // How fast the rig will rotate from user input. /////////////////////////////////感度
+        [Range(0f, 10f)] [SerializeField] private static float m_TurnSpeed;   // How fast the rig will rotate from user input. /////////////////////////////////感度
         [SerializeField] private float m_TurnSmoothing = 0.0f;                // How much smoothing to apply to the turn input, to reduce mouse-turn jerkiness
         [SerializeField] private float m_TiltMax = 90f;                       // The maximum value of the x axis rotation of the pivot.
         [SerializeField] private float m_TiltMin = 90f;                       // The minimum value of the x axis rotation of the pivot.
@@ -28,7 +28,12 @@ namespace UnityStandardAssets.Cameras
 		private Quaternion m_PivotTargetRot;
 		private Quaternion m_TransformTargetRot;
 
-        protected override void Awake()
+		private new void Start()
+		{
+			m_TurnSpeed = 10f;// * SensitivityManager.GetTurnSpeed();
+		}
+
+		protected override void Awake()
         {
             base.Awake();
             // Lock or unlock the cursor.

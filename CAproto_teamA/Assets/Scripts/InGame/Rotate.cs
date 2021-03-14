@@ -2,17 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rotate : MonoBehaviour
+namespace InGame
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	public class Rotate : MonoBehaviour
+	{
 
-    // Update is called once per frame
-    void Update()
-    {
-		transform.Rotate(new Vector3(15, 30, 45) * Time.deltaTime);
-    }
+		private GameObject _gameManager;
+		private GameManager _gameManagerScript;
+
+		private void Start()
+		{
+			_gameManager = GameObject.Find("GameManager");
+			_gameManagerScript = _gameManager.GetComponent<GameManager>();
+		}
+
+		void Update()
+		{
+			if(_gameManagerScript.isMatrixAvailable && _gameManagerScript.isPressSpaceKey)
+			{
+				transform.Rotate(new Vector3(30, 45, 60) * Time.deltaTime * _gameManagerScript.timeSpeedMultiplier);
+			}
+			else
+			{
+				transform.Rotate(new Vector3(30, 45, 60) * Time.deltaTime);
+			}
+		}
+	}
 }
