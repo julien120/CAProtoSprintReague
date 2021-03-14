@@ -9,8 +9,9 @@ namespace Title_afterLogin
     public class GameManager : MonoBehaviour
     {
         [SerializeField] private Button buttonStartGame;
-
+        [SerializeField] private Button buttonSetting;
         [SerializeField] private Button buttonRanking;
+        [SerializeField] private GameObject settingUI;
         private AudioSource audioSound;
         // Start is called before the first frame update
         void Start()
@@ -18,14 +19,8 @@ namespace Title_afterLogin
             audioSound = GetComponent<AudioSource>();
             buttonStartGame.onClick.AddListener(LoadInGameScene);
             buttonRanking.onClick.AddListener(LoadRankingScene);
+            buttonSetting.onClick.AddListener(SetSettting);
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
 
         private void LoadInGameScene()
 		{
@@ -42,9 +37,9 @@ namespace Title_afterLogin
         /// <summary>
 		/// シーン移動しないならDotweenかSetActiveで
 		/// </summary>
-        private void LoadSettingScene()
+        private void SetSettting()
         {
-            //SceneController.Instance.LoadInGameScene();
+            settingUI.SetActive(true);
         }
     }
 }
