@@ -206,13 +206,14 @@ namespace InGame
 						{
 							totalPoint += _eachPoint*4;
 							pointMultipleTextObject.SetActive(true);
-							//_pointMultipleText.text = "× 4";
+							_pointMultipleText.text = "400";
 							_pointText.text = totalPoint.ToString();
 							return;
 						}						
 						else
 						{
 							totalPoint += _eachPoint;
+							_pointMultipleText.text = "100";
 							_pointText.text = totalPoint.ToString();
 						}
 						
