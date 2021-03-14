@@ -11,10 +11,11 @@ namespace Title_afterLogin
         [SerializeField] private Button buttonStartGame;
 
         [SerializeField] private Button buttonRanking;
-
+        private AudioSource audioSound;
         // Start is called before the first frame update
         void Start()
         {
+            audioSound = GetComponent<AudioSource>();
             buttonStartGame.onClick.AddListener(LoadInGameScene);
             buttonRanking.onClick.AddListener(LoadRankingScene);
         }
@@ -28,11 +29,13 @@ namespace Title_afterLogin
 
         private void LoadInGameScene()
 		{
+            audioSound.PlayOneShot(audioSound.clip);
             SceneController.Instance.LoadInGameScene();
 		}
 
         private void LoadRankingScene()
         {
+            audioSound.PlayOneShot(audioSound.clip);
             SceneController.Instance.LoadRankingScene();
         }
 
