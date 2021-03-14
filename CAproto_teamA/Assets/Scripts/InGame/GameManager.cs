@@ -48,9 +48,14 @@ namespace InGame
 			StartCoroutine(CountdownC());
 		}
 
+		public static int GetTotalScore()
+		{
+			return totalScore;
+		}
+
 		private void Playing()
 		{
-			if (matrixGaugeManager._MatrixTime == 0)
+			if (matrixGaugeManager.MatrixTime == 0)
 			{
 				isMatrixAvailable = false;
 			}
