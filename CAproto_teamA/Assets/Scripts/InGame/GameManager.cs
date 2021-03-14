@@ -100,7 +100,7 @@ namespace InGame
 			isPressSpaceKey = false;
 			isMatrixAvailable = false;
 			totalScoreTextObject.SetActive(true);
-			totalScore = (int)(currentTime * bulletsManager.totalPoint);
+			totalScore = (int)(currentTime * 600 + bulletsManager.totalPoint);
 			_totalScoreText.text = totalScore.ToString();
 			Cursor.lockState = CursorLockMode.None;
 			Cursor.visible = true;
