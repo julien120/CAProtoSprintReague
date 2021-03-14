@@ -30,7 +30,7 @@ namespace UnityStandardAssets.Cameras
 
 		private new void Start()
 		{
-			m_TurnSpeed = 10f;// * SensitivityManager.GetTurnSpeed();
+			m_TurnSpeed = 1.5f;// * SensitivityManager.GetTurnSpeed();
 		}
 
 		protected override void Awake()
