@@ -18,6 +18,9 @@ public class LoginNetWork : MonoBehaviour
 	//サンプル用のサーバー
 	//private const string ServerAddress = "http://3.138.103.250:8080/";
 
+	private bool isLoginNetWorkError;
+
+
 	/// <summary>
 	/// メソッドタイプ
 	/// </summary>
@@ -65,8 +68,15 @@ public class LoginNetWork : MonoBehaviour
 
 		// ユーザログイン
 		yield return LoginUser(webRequest);
+		if(isLoginNetWorkError==true)
+		{
+			//なんかの処理
+		}
+		else
+		{
+			LoadLoginedTitleScene();
+		}
 
-		LoadLoginedTitleScene();
 
 	}
 
@@ -102,17 +112,22 @@ public class LoginNetWork : MonoBehaviour
 				token = userLoginResonseDto.token;
 				Debug.Log("ログインPost完了!最高だぜ!!");
 			},
-			Debug.LogError,                                                                 //通信失敗時の処理
+			onLoginError,                                                                 //通信失敗時の処理
 			false                                                                            //トークンを使用するか
 			);
 
 
 		// トークンの設定
 		webRequest.SetToken(token);
-
+		TokenManager.token = token;
 
 	}
 
+	//エラー時の処理
+	private void onLoginError(string message)
+	{
+		isLoginNetWorkError = true;
+	}
 
 
 	/// <summary>

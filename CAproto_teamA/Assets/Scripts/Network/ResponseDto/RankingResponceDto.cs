@@ -1,17 +1,22 @@
-//using System;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
-//namespace ProjectConnect.Network.ResponseDto
-//{
-//	[Serializable]
-//	public class RankingResponseDto : DtoBase
-//	{
-//		string userId;
-//		string userName;
-//		string rank;
-//		string score;
+namespace ProjectConnect.Network.ResponseDto
+{
+	[Serializable]
+	public class RankingResponseDto : DtoBase
+	{
+		public List<RankInfo> ranks;
+	}
 
-//		public string[][] ranks = new string[10][] { userId, userName, rank, score };
-
-//		//ranks[1]={userId,
-//	}
-//}
+	[Serializable]
+	public class RankInfo
+	{
+		public string userId;
+		public string userName;
+		public string rank;
+		public string score;
+    
+    }
+}

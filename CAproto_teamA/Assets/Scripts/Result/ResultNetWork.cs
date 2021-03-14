@@ -44,6 +44,7 @@ public class ResultNetWork : MonoBehaviour
 	{
 		// WebRequestクラスをインスタンス化
 		var webRequest = new WebRequest();
+		webRequest.SetToken(TokenManager.token);
 
 		// サーバーアドレスを設定する
 		webRequest.SetServerAddress(ServerAddress);

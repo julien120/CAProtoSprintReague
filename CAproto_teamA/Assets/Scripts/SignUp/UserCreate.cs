@@ -20,6 +20,9 @@ public class UserCreate : MonoBehaviour
 	//サンプル用のサーバー
 	//private const string ServerAddress = "http://3.138.103.250:8080/";
 
+	private bool isCreateUserNetWorkError;
+	private bool isGetInfoNetWorkError;
+
 	/// <summary>
 	/// メソッドタイプ
 	/// </summary>
@@ -68,10 +71,25 @@ public class UserCreate : MonoBehaviour
 		// ユーザデータ作成
 		yield return CreateUser(webRequest);
 
-		// ユーザー情報取得
-		yield return GetUserInfo(webRequest);
+		if(isCreateUserNetWorkError == true)
+		{
+			//タイトルに戻るなどの操作
+		}
+		else
+		{
+			yield return GetUserInfo(webRequest);
+			if(isGetInfoNetWorkError==true)
+			{
+				//なんかの処理
+			}
+			else
+			{
+				LoadLoginedTitleScene();
+			}
+		}
 
-		 LoadLoginedTitleScene();
+		// ユーザー情報取得
+	
 	}
 
 
@@ -105,17 +123,29 @@ public class UserCreate : MonoBehaviour
 				token = userCreateResonseDto.token;
 				Debug.Log("UserID:"+userCreateRequestDto.userId); 
 			},
-			Debug.LogError,                                                                 //通信失敗時の処理
+			onCreateUserError,                                                                 //通信失敗時の処理
 			false                                                                            //トークンを使用するか
 			);
 
 
 		// トークンの設定
 		webRequest.SetToken(token);
+		TokenManager.token = token;
 
 
 	}
 
+
+	//エラー時の処理
+	private void onCreateUserError(string message)
+	{
+		isCreateUserNetWorkError = true;
+	}
+
+	private void onGetUserInfoError(string message)
+	{
+		isGetInfoNetWorkError = true;
+	}
 
 	/// <summary>
 	/// ユーザ情報取得
@@ -132,7 +162,7 @@ public class UserCreate : MonoBehaviour
 		{
 			Debug.Log("name:" + userGetResponseDto.name);
 			
-		}, Debug.LogError);
+		}, onGetUserInfoError);
 
 	}
 
