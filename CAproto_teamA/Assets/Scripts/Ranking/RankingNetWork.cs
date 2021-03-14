@@ -33,14 +33,16 @@ public class RankingNetWork : MonoBehaviour
 		{
 			userNameText[i] = userNameText[i].GetComponent<Text>();
 			scoreText[i] = scoreText[i].GetComponent<Text>();
+			StartCoroutine(NetworkCoroutine());
 		}
+
 	}
 
-	//OnClickで呼び出すメソッド
-	public void StartCoroutine()
-	{
-		StartCoroutine(NetworkCoroutine());
-	}
+	////OnClickで呼び出すメソッド
+	//public void StartCoroutine()
+	//{
+	//	StartCoroutine(NetworkCoroutine());
+	//}
 
 	/// <summary>
 	/// 通信サンプル用のCoroutine
@@ -76,7 +78,7 @@ public class RankingNetWork : MonoBehaviour
 		// 失敗時: エラーの内容をDebug.LogErrorで出力する
 		yield return webRequest.Get<RankingResponseDto>(GetMethod(MethodType.GetRanking), rankingResponseDto =>
 		{
-			Debug.Log(rankingResponseDto.ranks[0].score);
+			//Debug.Log(rankingResponseDto.ranks.Count);
 
 			for(int i=0;i<rankingResponseDto.ranks.Count;i++)
 			{
