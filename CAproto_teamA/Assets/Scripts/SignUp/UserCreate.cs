@@ -10,7 +10,8 @@ public class UserCreate : MonoBehaviour
 	public InputField userNameInputField;
 	public InputField userIdInputField;
 	public InputField passwordInputField;
-	public Text errorText;
+	
+	public GameObject userCreateErrorPanel;
 
 	//チーム用のサーバー
 	
@@ -43,7 +44,7 @@ public class UserCreate : MonoBehaviour
 		userIdInputField = userIdInputField.GetComponent<InputField>();
 		passwordInputField = passwordInputField.GetComponent<InputField>();
 
-		errorText = errorText.GetComponent<Text>();
+		
 
 	}
 
@@ -76,8 +77,9 @@ public class UserCreate : MonoBehaviour
 		if(isCreateUserNetWorkError == true)
 		{
 			//タイトルに戻るなどの操作
-			errorText.gameObject.SetActive(true);
-			errorText.text = "ユーザー登録に失敗しました.";
+			userCreateErrorPanel.SetActive(true);
+			Debug.Log("Postに失敗しました");
+			
 		}
 		else
 		{
@@ -85,8 +87,9 @@ public class UserCreate : MonoBehaviour
 			if(isGetInfoNetWorkError==true)
 			{
 				//なんかの処理
-				errorText.gameObject.SetActive(true);
-				errorText.text = "ユーザー登録に失敗しました.";
+				userCreateErrorPanel.SetActive(true);
+				Debug.Log("GetUserに失敗しました");
+		
 			}
 			else
 			{

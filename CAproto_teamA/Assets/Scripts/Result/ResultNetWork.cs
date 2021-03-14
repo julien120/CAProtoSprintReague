@@ -5,15 +5,17 @@ using ProjectConnect.Network.ResponseDto;
 using UnityEngine;
 using UnityEngine.UI;
 
+using InGame;
+
 public class ResultNetWork : MonoBehaviour
 {
 	public Text scoreText;
 
 	//サンプル用
-	int userScore = 1000; 
-	
+	//int userScore = 1000; 
+
 	//GameManagerからtotalScoreを呼ぶ
-	//int userScore=GameManager.GetTotalScore()
+	int userScore = GameManager.GetTotalScore();
 
 	//チーム用のサーバー
 	private const string ServerAddress = "http://52.198.128.17:8080/";
@@ -33,7 +35,7 @@ public class ResultNetWork : MonoBehaviour
 	void Start()
     {
 		scoreText = scoreText.GetComponent<Text>();
-		scoreText.text = userScore.ToString();                  //scoreTextに得点を表示
+		scoreText.text = "YourScore:"+userScore.ToString();                  //scoreTextに得点を表示
 		StartCoroutine(NetworkCoroutine());
 	}
 
