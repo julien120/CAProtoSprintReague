@@ -10,10 +10,8 @@
 //		string rank;
 //		string score;
 
-//		//public string[][] ranks = new string[10][] { userId, userName,rank,score};
+//		public string[][] ranks = new string[10][] { userId, userName, rank, score };
 
 //		//ranks[1]={userId,
 //	}
-
-
 //}

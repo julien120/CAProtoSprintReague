@@ -9,7 +9,10 @@ public class ResultNetWork : MonoBehaviour
 {
 	public Text scoreText;
 
-	int userScore = 1000; //GameManagerからtotalScoreを呼ぶ
+	//サンプル用
+	int userScore = 1000; 
+	
+	//GameManagerからtotalScoreを呼ぶ
 	//int userScore=GameManager.GetTotalScore()
 
 	//チーム用のサーバー
