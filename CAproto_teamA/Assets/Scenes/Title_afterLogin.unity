@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.002940842, g: 0.003277385, b: 0.0042395783, a: 1}
+  m_IndirectSpecularColor: {r: 0.002940838, g: 0.0032773842, b: 0.004239577, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -438,6 +438,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 430604427}
   m_CullTransparentMesh: 0
+--- !u!1 &536874382 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 795863568449236154, guid: 44c8a16c0a08e3546807beceb067e8d3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1435764898}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &556496561
 GameObject:
   m_ObjectHideFlags: 0
@@ -2695,6 +2701,51 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1435764898}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1580258646
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1580258648}
+  - component: {fileID: 1580258647}
+  m_Layer: 0
+  m_Name: SensitivityManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1580258647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1580258646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a553bcd2054544338bf83e6d4715093c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sliderFlick: {fileID: 1967451497}
+  sensitivityTextGameObject: {fileID: 536874382}
+--- !u!4 &1580258648
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1580258646}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 784.9876, y: 341.37122, z: -528.99774}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1775684798
 GameObject:
   m_ObjectHideFlags: 0
@@ -3001,6 +3052,12 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1967451497 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 795863568652074537, guid: 44c8a16c0a08e3546807beceb067e8d3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1435764898}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2095325392
 GameObject:
   m_ObjectHideFlags: 0
