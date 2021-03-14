@@ -17,6 +17,8 @@ namespace InGame
 		public float MatrixTime;
 		public float remainingMatrixGuage;
 
+		private GameObject image;
+
 		public bool isRecovery;
 		// Start is called before the first frame update
 		void Start()
@@ -27,6 +29,8 @@ namespace InGame
 			_matrixGauge.text = "";
 			MatrixTime = 0;
 			remainingMatrixGuage = 0;
+
+			image = GameObject.Find("MatrixGuage");
 
 			isRecovery = false;
 		}
@@ -52,6 +56,7 @@ namespace InGame
 				isRecovery = false;
 			}
 			_gameManagerScript.isMatrixAvailable = true ? MatrixTime > 0 : false;
+			image.GetComponent<Image>().fillAmount = remainingMatrixGuage / 100;
 		}
 	}
 }

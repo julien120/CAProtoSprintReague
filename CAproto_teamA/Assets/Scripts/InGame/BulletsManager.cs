@@ -22,6 +22,10 @@ namespace InGame
 		private GameObject bullet;
 		//private List<GameObject> bullets;
 		private GameObject[] bullets;
+		private GameObject[] lifeImages;
+
+		[SerializeField] private LifeGauge lifeGauge;
+
 		private float _spawnTimer;
 		[SerializeField] private float _enemyShootInterval = 2; //発射間隔
 		//[SerializeField] private float _intervalRangeOfReduction = 0.5f;
@@ -31,6 +35,7 @@ namespace InGame
 		private Vector3 _enemyBulletSpawnPosition;
 		private Vector3 _enemyBulletForce;
 		private Transform _cameraPosition;
+		private bool _isKeyDown;
 		[SerializeField] private float _enemyBulletSpeed = 2;
 
 		private bool _isDestroy;
@@ -68,6 +73,10 @@ namespace InGame
 			//bullets = new List<GameObject>();
 
 			matrixObjectManager.matrixSpeed = _enemyBulletSpeed;
+			_isKeyDown = false;
+
+			lifeGauge.SetLifeGauge(gameManager.life);
+
 		}
 
 		// Update is called once per frame
@@ -134,14 +143,22 @@ namespace InGame
 					if (Input.GetKeyDown(KeyCode.Space) && gameManager.isMatrixAvailable) 
 					{
 						bullet.GetComponent<Rigidbody>().velocity *= gameManager.timeSpeedMultiplier;
+						_isKeyDown = true;
 					}
 					if (Input.GetKeyUp(KeyCode.Space) && gameManager.isMatrixAvailable)
 					{
 						bullet.GetComponent<Rigidbody>().velocity /= gameManager.timeSpeedMultiplier;
+						_isKeyDown = false;
 					}
 					if(!gameManager.isPlaying || gameManager.isGameOver)
 					{
 						bullet.GetComponent<Rigidbody>().velocity *= 0;
+					}
+
+					if (_isKeyDown && !gameManager.isMatrixAvailable)
+					{
+						bullet.GetComponent<Rigidbody>().velocity /= gameManager.timeSpeedMultiplier;
+						_isKeyDown = false;
 					}
 
 					//Debug.Log(_enemyBulletForce);
@@ -154,6 +171,7 @@ namespace InGame
 						_isDestroy = true;
 						isDamageReceived = true;
 						gameManager.life -= 1;
+						lifeGauge.DamageSetLifeGauge();
 					}
 				}
 				
@@ -176,7 +194,10 @@ namespace InGame
 							
 						isShootingSucess = true;
 						_isDestroy = true;
-						Destroy(hit.collider.gameObject);
+						if (hit.collider.gameObject.CompareTag("Bullet")){
+							Destroy(hit.collider.gameObject);
+
+						}
 
 						if (bullet.GetComponent<Transform>().position.z-_cameraPosition.position.z<4 && bullet.GetComponent<Transform>().position.z - _cameraPosition.position.z > 0)
 						{
