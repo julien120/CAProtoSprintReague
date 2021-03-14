@@ -16,6 +16,11 @@ namespace InGame
 		MatrixGaugeManager matrixGaugeManager;
 
 		private BulletsManager bulletsManager;
+		public GameObject resultUI;
+		public GameObject finishPointTextGameObject;
+		private Text _finishPointText;
+		public GameObject finishTimeTextGameObject;
+		private Text _finishTimeText;
 		public float currentTime;
 		public static int totalScore;	           /////リザルト	
 		public GameObject totalScoreTextObject;
@@ -43,6 +48,8 @@ namespace InGame
 			isPressSpaceKey = false;
 			_timePrint = GameObject.Find("TimerText").GetComponent<Text>();
 			_gameOverText.text = "";
+			_finishPointText = finishPointTextGameObject.GetComponent<Text>();
+			_finishTimeText = finishTimeTextGameObject.GetComponent<Text>();
 			isMatrixAvailable = true;
 			isPlaying = false;
 			StartCoroutine(CountdownC());
@@ -95,6 +102,8 @@ namespace InGame
 			totalScoreTextObject.SetActive(true);
 			totalScore = (int)(currentTime * bulletsManager.totalPoint);
 			_totalScoreText.text = totalScore.ToString();
+			_finishPointText.text = bulletsManager.totalPoint.ToString();
+			_finishTimeText.text= currentTime.ToString();
 			StartCoroutine(WaitTwoSecs());
 		}
 
@@ -134,6 +143,7 @@ namespace InGame
 			_gameOverText.text = "GAME OVER";
 			yield return new WaitForSeconds(2f);
 			isPlaying = false;
+			resultUI.SetActive(true);
 		}
 
 		void Update()
